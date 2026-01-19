@@ -2,14 +2,18 @@ using UnityEngine;
 
 public class BeerTrayScript : BeerBottle
 {
-    // Start is called before the first frame update
+    protected static BeerTrayScript traySer;
+    public static BeerTrayScript Instance => traySer;
     float xInput;
     float moveSpeed = 5f;
+    AudioSource adTray;
 
     protected override void Awake()
     {
         base.Awake();
         rb = GetComponentInChildren<Rigidbody2D>();
+        adTray = GetComponentInChildren<AudioSource>();
+        traySer = this;
     }
     void Start()
     {
@@ -19,14 +23,15 @@ public class BeerTrayScript : BeerBottle
     // Update is called once per frame
     protected override void Update()
     {
-       
-        if (serviceBottle.CountValue() > 5)
-        {
+        if (logical.beerBreak)
             Motion(false);
-        }
-        else
+        else 
             Motion(true);
+
     }
+
+
+
     private void Motion(bool enable)
     {
         if (enable)
@@ -39,6 +44,17 @@ public class BeerTrayScript : BeerBottle
         {
             rb.velocity = new Vector2(0, 0);
         }
+    }
+
+    public void MissingSound()
+    {
+        if (adTray != null)
+        {
+
+            adTray.Play();
+            //Debug.Log("turn on missing sound");
+        }
+
     }
 
 }

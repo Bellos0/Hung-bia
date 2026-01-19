@@ -5,34 +5,51 @@ public class BeerBottleRespawner : BeerBottle
     [SerializeField] GameObject bottle;
     [SerializeField] Transform[] respawnPoint;
 
-    float spawnTime = 5f;
-   [SerializeField] float timer;
+    float spawnTime = 3.5f;
+    [SerializeField] float timer;
     float respawnDelay = 0.2f;
 
-    private void Awake()
+    protected override void Awake()
     {
+
         timer = spawnTime;
+    }
+
+
+    private void Start()
+    {
+        RespawnerBottle(true);
     }
 
     void Update()
     {
-        timer -= Time.deltaTime +respawnDelay;
+        timer -= Time.deltaTime + respawnDelay;
         if (timer < 0)
         {
-            if (serviceBottle.CountValue() < 5)
+            if (logical.count < 10 && logical.beerBreak == false)
             {
 
-            timer = spawnTime;
-            RespawnerBottle();
+
+                timer = spawnTime;
+                RespawnerBottle(true);
             }
+            else
+                RespawnerBottle(false);
+
         }
     }
 
-    private void RespawnerBottle()
+    void RespawnerBottle(bool enable)
     {
-        //throw new NotImplementedException();
-        int randomPoint = UnityEngine.Random.Range(0, respawnPoint.Length);
-        Vector3 spawnerPoint = respawnPoint[randomPoint].position;
-        GameObject newbottle = Instantiate(bottle, spawnerPoint, Quaternion.identity);
+        if (enable == true)
+        {
+
+            int randomPoint = UnityEngine.Random.Range(0, respawnPoint.Length);
+            Vector3 spawnerPoint = respawnPoint[randomPoint].position;
+            GameObject newbottle = Instantiate(bottle, spawnerPoint, Quaternion.identity);
+        }
+        else
+            return;
+
     }
 }

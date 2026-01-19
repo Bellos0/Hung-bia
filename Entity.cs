@@ -14,6 +14,8 @@ public class Entity : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         cd = GetComponent<Collider2D>();
+        
+
     }
 
 
@@ -34,13 +36,13 @@ public class Entity : MonoBehaviour
     {
         if (transform.position.y < -8.0f)
         {
-            EliminatedObject();
-            Debug.Log("destroy entity");
+            EliminatedObject(0);
+            //Debug.Log("destroy entity");
         }
     }
 
-    protected void EliminatedObject()
+    protected void EliminatedObject(float delay)
     {
-        Destroy(gameObject);
+        Destroy(gameObject,delay);
     }
 }
